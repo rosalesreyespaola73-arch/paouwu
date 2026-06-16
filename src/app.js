@@ -14,6 +14,11 @@ console.log('✅ Cargando middlewares y rutas...');
 
 app.use(express.json());
 
+// ✅ RUTA RAÍZ DEL SERVIDOR
+app.get('/', (req, res) => {
+    res.json({ status: "ok", message: "¡El backend está respondiendo perfectamente!" });
+});
+
 // ✅ RUTA RAÍZ API
 app.get('/api', (req, res) => {
     res.json({ 
