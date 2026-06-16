@@ -4,7 +4,6 @@ import clientesRouter from './routers/clientes.routers.js'
 
 const app = express()
 
-// ✅ CONFIGURACIÓN CORS CORRECTA
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -14,6 +13,18 @@ app.use(cors({
 console.log('✅ Cargando middlewares y rutas...');
 
 app.use(express.json());
+
+// ✅ RUTA RAÍZ API
+app.get('/api', (req, res) => {
+    res.json({ 
+        message: 'API activa ✅',
+        version: '1.0.0',
+        endpoints: {
+            clientes: '/api/clientes',
+            login: '/api/login'
+        }
+    });
+});
 
 // Rutas
 app.use('/api', clientesRouter)  
