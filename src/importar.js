@@ -1,24 +1,21 @@
 import mysql from 'mysql2/promise';
 import fs from 'fs';
+import { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT, DB_SSL } from './config.js';
 
 const importar = async () => {
-    console.log('📡 Conectando directamente a Aiven...');
+    console.log('📡 Conectando a la base de datos...');
     
-    // Forzamos los datos reales de tu servidor en la nube
+    // Usamos la configuración centralizada de config.js
     const connectionConfig = {
-        host: 'mysql-27a079a1-miappick-2026.a.aivencloud.com',
-        user: 'avnadmin',
-        password: '',
-        database: 'defaultdb',
-        port: 26394,
-        ssl: {
-            rejectUnauthorized: false
-        },
+        host: DB_HOST,
+        user: DB_USER,
+        password: DB_PASSWORD,
+        database: DB_DATABASE,
+        port: DB_PORT,
+        ssl: DB_SSL,
         multipleStatements: true
     };
 
-    console.log(`🔗 Destino forzado: ${connectionConfig.host}:${connectionConfig.port} / BD: ${connectionConfig.database}`);
-    
     // Leer el archivo SQL
     const sql = fs.readFileSync('C:/Users/PAOLA/Downloads/base2026.sql', 'utf8');
     console.log('📄 Archivo SQL leído, tamaño:', sql.length, 'bytes');

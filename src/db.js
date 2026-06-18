@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT } from './config.js';
+import { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT, DB_SSL } from './config.js';
 
 const pool = mysql.createPool({
     host: DB_HOST,
@@ -8,14 +8,22 @@ const pool = mysql.createPool({
     database: DB_DATABASE,
     port: DB_PORT,
 
-    ssl: {
-        rejectUnauthorized: false
-    },
+    ssl: DB_SSL,
 
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
+
+// Verificar conexión al iniciar
+pool.getConnection()
+    .then(connection => {
+        console.log(`✅ Conectado a la base de datos: ${DB_DATABASE} en ${DB_HOST}`);
+        connection.release();
+    })
+    .catch(err => {
+        console.error('❌ Error crítico de conexión a la base de datos:', err.message);
+    });
 
 export const conmysql = pool;
 export default pool;

@@ -31,10 +31,10 @@ app.get('/api', (req, res) => {
     });
 });
 
-// Rutas
+// ✅ RUTAS PRINCIPALES (Todo pasa obligatoriamente por /api)
 app.use('/api', clientesRouter)  
 
-// Manejador 404
+// Manejador 404 global
 app.use((req, res, next) => {
     console.log(`⚠️ 404 en: ${req.method} ${req.url}`);
     res.status(404).json({

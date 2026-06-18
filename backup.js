@@ -4,12 +4,12 @@ import fs from 'fs';
 (async () => {
   try {
     const conn = await mysql.createConnection({
-      host: 'mysql-27a09a1-miappick-2026.a.aivencloud.com',
+      host: 'mysql-27a079a1-miappick-2026.a.aivencloud.com',
       port: 26394,
       user: 'avnadmin',
       password: 'AVNS_wFJ5WbDNHlY-C-u1Sis',
       database: 'defaultdb',
-      ssl: 'Amazon RDS'
+      ssl: { rejectUnauthorized: false }
     });
     
     const [tables] = await conn.query('SHOW TABLES');
