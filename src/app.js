@@ -1,10 +1,17 @@
 import express from 'express';
 import cors from 'cors';
-
+import path from 'path';
+import { fileURLToPath } from 'url';
 import clientesRouter from './routers/clientes.routers.js';
 import productosRouter from './routers/productos.routers.js';
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const uploadsPath = path.resolve(__dirname, './uploads');
+
+app.use('/uploads', express.static(uploadsPath));
 
 app.use(cors({
     origin: '*',
