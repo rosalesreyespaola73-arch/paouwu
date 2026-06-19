@@ -1,45 +1,44 @@
-import express from 'express'
-import cors from 'cors'
-import clientesRouter from './routers/clientes.routers.js'
+import express from 'express';
+import cors from 'cors';
 
-const app = express()
+import clientesRouter from './routers/clientes.routers.js';
+import productosRouter from './routers/productos.routers.js';
+
+const app = express();
 
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept']
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
-console.log('✅ Cargando middlewares y rutas...');
 
 app.use(express.json());
 
-// ✅ RUTA RAÍZ DEL SERVIDOR
 app.get('/', (req, res) => {
-    res.json({ status: "ok", message: "¡El backend está respondiendo perfectamente!" });
+    res.json({
+        status: 'ok',
+        message: 'Backend funcionando'
+    });
 });
 
-// ✅ RUTA RAÍZ API
 app.get('/api', (req, res) => {
-    res.json({ 
-        message: 'API activa ✅',
-        version: '1.0.0',
+    res.json({
+        message: 'API activa',
         endpoints: {
+            login: '/api/login',
             clientes: '/api/clientes',
-            login: '/api/login'
+            productos: '/api/productos'
         }
     });
 });
 
-// ✅ RUTAS PRINCIPALES (Todo pasa obligatoriamente por /api)
-app.use('/api', clientesRouter)  
+app.use('/api', clientesRouter);
+app.use('/api', productosRouter);
 
-// Manejador 404 global
-app.use((req, res, next) => {
-    console.log(`⚠️ 404 en: ${req.method} ${req.url}`);
+app.use((req, res) => {
     res.status(404).json({
         message: 'Endpoint not found'
-    })
-})
+    });
+});
 
-export default app
+export default app;
